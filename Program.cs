@@ -147,7 +147,7 @@ namespace LecturaEscrituraArchivos
             Console.WriteLine();
             Console.Write("Nombre del libro: ");
             titulo = Console.ReadLine();
-            Console.Write("Descripción del libro: ");
+            Console.Write("Autor del libro: ");
             autor = Console.ReadLine();
           
             Libro objLibro = new Libro(titulo, autor);

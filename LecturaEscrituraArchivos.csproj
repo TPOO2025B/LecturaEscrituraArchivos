@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Base\BaseDeDatos.cs" />
     <Compile Include="Clases\Articulo.cs" />
+    <Compile Include="Clases\Cliente.cs" />
+    <Compile Include="Clases\Libro.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

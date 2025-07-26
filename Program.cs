@@ -13,7 +13,11 @@ namespace LecturaEscrituraArchivos
     {
         static void Main(string[] args)
         {
-            BaseDeDatos.cargarDatosDesdeArchivo();
+            BaseDeDatos.cargarDatosDesdeArchivoArticulo();
+            BaseDeDatos.cargarDatosDesdeArchivoCliente();
+            BaseDeDatos.cargarDatosDesdeArchivoLibro();
+
+
             while (true)
             {
                 Menu();
@@ -31,14 +35,17 @@ namespace LecturaEscrituraArchivos
             Console.WriteLine("3.- Consultar Artículo por ID");
             Console.WriteLine("4.- Modificar Artículo");
             Console.WriteLine("5.- Eliminar Artículo");
-            Console.WriteLine("6.- Salir");
+            Console.WriteLine("6.- Ingresar Libro");
+            Console.WriteLine("7.- Ingresar Cliente");
+            Console.WriteLine("8.- Consultar Clientes");
+            Console.WriteLine("9.- Salir");
             Console.Write("Seleccione una opción: ");
             string opcion = Console.ReadLine();
             switch(opcion)
             {
                 case "1":
                     IngresarArticulo();
-                    BaseDeDatos.guardarDatosEnArchivo(); 
+                    BaseDeDatos.guardarDatosEnArchivoArticulo(); 
                     break;
                 case "2":
                     ConsultarArticulos();
@@ -48,13 +55,24 @@ namespace LecturaEscrituraArchivos
                     break;
                 case "4":
                     ModificarArticulo();
-                    BaseDeDatos.guardarDatosEnArchivo();
+                    BaseDeDatos.guardarDatosEnArchivoArticulo();
                     break;
                 case "5":
                     EliminarArticulo();
-                    BaseDeDatos.guardarDatosEnArchivo();
+                    BaseDeDatos.guardarDatosEnArchivoArticulo();
                     break;
                 case "6":
+                    IngresarLibro();
+                    BaseDeDatos.guardarDatosEnArchivoLibro();
+                    break;
+                case "7":
+                    IngresarCliente();
+                    BaseDeDatos.guardarDatosEnArchivoCliente();
+                    break;
+                case "8":
+                    ConsultarClientes();
+                    break;
+                case "9":
                     Environment.Exit(0);
                     break;
                 default:
@@ -63,6 +81,78 @@ namespace LecturaEscrituraArchivos
                     Menu();
                     break;
             }
+        }
+
+        private static void ConsultarClientes()
+        {
+            BaseDeDatos.ImprimirTodosClientes();
+            Console.ReadLine();
+        }
+
+        private static void IngresarCliente()
+        {
+            string nombre;
+            string apellido;
+            string mail;
+
+            Console.Clear();
+            Console.WriteLine("INGRESO DE CLIENTES");
+            Console.WriteLine();
+            Console.Write("Nombre del Cliente: ");
+            nombre = Console.ReadLine();
+            Console.Write("Apellido del Cliente: ");
+            apellido = Console.ReadLine();
+            Console.Write("Mail del Cliente: ");
+            mail = Console.ReadLine();
+
+            Cliente objCliente= new Cliente(nombre, apellido, mail);
+            Console.WriteLine("Cliente ingresado correctamente.");
+
+            Console.WriteLine("");
+            Console.WriteLine("¿Desea Asignar al cliente un Libro leído? (S/N)");
+            string respuesta = Console.ReadLine().ToUpper();
+            if (respuesta == "S")
+            {
+                BaseDeDatos.ImprimirTodosLibros();
+                Console.Write("Ingrese el ID del libro que desea asignar: ");
+                int idLibro = Convert.ToInt32(Console.ReadLine());
+                Libro objLibroConsultado = BaseDeDatos.GetLibroXId(idLibro);
+                if (objLibroConsultado != null)
+                {
+                    objCliente.addLibro(objLibroConsultado);
+                    Console.WriteLine("Libro asignado al cliente correctamente.");
+                }
+                else
+                {
+                    Console.WriteLine("El libro con el ID ingresado no existe.");
+                }
+
+
+            }
+            else
+            {
+                Console.WriteLine("No se ingresó ningún libro.");
+            }
+
+            Console.ReadLine();
+        }
+
+        private static void IngresarLibro()
+        {
+            string titulo;
+            string autor;
+
+            Console.Clear();
+            Console.WriteLine("INGRESO DE LIBROS");
+            Console.WriteLine();
+            Console.Write("Nombre del libro: ");
+            titulo = Console.ReadLine();
+            Console.Write("Descripción del libro: ");
+            autor = Console.ReadLine();
+          
+            Libro objLibro = new Libro(titulo, autor);
+            Console.WriteLine("Libro ingresado correctamente.");
+            Console.ReadLine();
         }
 
         private static void EliminarArticulo()
